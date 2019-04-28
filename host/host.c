@@ -26,7 +26,8 @@ int main() {
   }
   printf("good: about to invoke runtimeStart().\n");    
   runtimeStart();
-  printf("host.c main is done.\n");  
+  printf("host.c main is done.\n");
+  return 0;
 }
 
 void init() {
