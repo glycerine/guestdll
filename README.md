@@ -113,4 +113,17 @@ runtime.rt0_go(0x7fffb11e1d80, 0x400858, 0x7fffb11e1d80, 0x4006a0, 0x400858, 0x4
 	/usr/local/go/src/runtime/asm_amd64.s:252 +0x251 fp=0x7fffb11e1d58 sp=0x7fffb11e1d50 pc=0x7ffb34d693c1
 root@eceba7590181:~/go/src/github.com/glycerine/guestdll/host#
 ~~~
-But this is very good progress! It looks like enough of the runtime was initialized that a panic actually worked!
+But this is very good progress! It looks like enough of the runtime was initialized that a panic actually worked!  The error is coming from src/runtime/malloc.go:232 (in go1.10.2 anyway). It looks like some of the OS init isn't being done, based on the comment there:
+
+~~~
+    ## malloc.go:229-233 in go1.10.2 on linux:
+    // Check physPageSize.
+    if physPageSize == 0 {
+         // The OS init code failed to fetch the physical page size.
+         throw("failed to get system page size")  ## where we are current crashing
+    }
+~~~
+It looks like `physPageSize` variable is supposed to also get set in
+the sysargs() call in runtime/os_linux.go, but apparently isn't at the moment,
+when starting the runtime after loading it as a DLL.
+
