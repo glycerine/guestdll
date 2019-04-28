@@ -87,3 +87,5 @@ Program terminated with signal SIGSEGV, Segmentation fault.
 (gdb)
 ~~~
 So the runtime seems to be crashing in runtime.sysargs().
+println() added to runtime/os_linux.go shows that the argc
+passed in is 4196440. The argv is probably garbage too.
