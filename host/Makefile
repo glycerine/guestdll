@@ -1,3 +1,3 @@
 .PHONY: all
 all:
-	gcc -o host host.c -ldl
+	gcc -g -o host host.c -ldl

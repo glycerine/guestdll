@@ -28,3 +28,7 @@ int main() {
   runtimeStart();
   printf("host.c main is done.\n");  
 }
+
+void init() {
+  printf("host.c init is run.\n");  
+}
