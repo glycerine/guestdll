@@ -113,3 +113,4 @@ runtime.rt0_go(0x7fffb11e1d80, 0x400858, 0x7fffb11e1d80, 0x4006a0, 0x400858, 0x4
 	/usr/local/go/src/runtime/asm_amd64.s:252 +0x251 fp=0x7fffb11e1d58 sp=0x7fffb11e1d50 pc=0x7ffb34d693c1
 root@eceba7590181:~/go/src/github.com/glycerine/guestdll/host#
 ~~~
+But this is very good progress! It looks like enough of the runtime was initialized that a panic actually worked!
