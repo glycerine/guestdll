@@ -9,4 +9,7 @@ go install -buildmode=shared -linkshared github.com/glycerine/guestdll/guest
 # the last 'go install' puts the .so shared library into
 cd ${GOPATH}/pkg/linux_amd64_dynlink/libgithub.com-glycerine-guestdll-guest.so
 
+# the runtime .so got built and saved here:
+${GOROOT}/pkg/linux_amd64_dynlink/libruntime,sync-atomic.so
+
 ~~~
