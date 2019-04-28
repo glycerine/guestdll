@@ -89,3 +89,27 @@ Program terminated with signal SIGSEGV, Segmentation fault.
 So the runtime seems to be crashing in runtime.sysargs().
 println() added to runtime/os_linux.go shows that the argc
 passed in is 4196440. The argv is probably garbage too.
+
+So let's just hack in and force argc to be 0, and see how
+far we get. Here's the next problem:
+
+~~~
+root@eceba7590181:~/go/src/github.com/glycerine/guestdll/host# ./host
+host.c main has begun.
+good: about to invoke runtimeStart().
+sysargs starting!
+argc =  4196440  # forcing this to zero
+fatal error: failed to get system page size
+runtime: panic before malloc heap initialized
+
+runtime stack:
+runtime.throw(0x7ffb34d77bdc, 0x1e)
+	/usr/local/go/src/runtime/panic.go:616 +0x83 fp=0x7fffb11e1c48 sp=0x7fffb11e1c28 pc=0x7ffb34d347d3
+runtime.mallocinit()
+	/usr/local/go/src/runtime/malloc.go:232 +0x526 fp=0x7fffb11e1ce8 sp=0x7fffb11e1c48 pc=0x7ffb34d14a86
+runtime.schedinit()
+	/usr/local/go/src/runtime/proc.go:491 +0x8b fp=0x7fffb11e1d50 sp=0x7fffb11e1ce8 pc=0x7ffb34d3814b
+runtime.rt0_go(0x7fffb11e1d80, 0x400858, 0x7fffb11e1d80, 0x4006a0, 0x400858, 0x400880, 0x135f470, 0x7ffb34d6d0e0, 0x0, 0x400880, ...)
+	/usr/local/go/src/runtime/asm_amd64.s:252 +0x251 fp=0x7fffb11e1d58 sp=0x7fffb11e1d50 pc=0x7ffb34d693c1
+root@eceba7590181:~/go/src/github.com/glycerine/guestdll/host#
+~~~
